@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icons from './utilities/icons';
-	import { iconValues } from './utilities/icon_values';
+	import iconValues from './utilities/icon_values';
 
 	export let name: Icons;
 	export let svg: { x: number; y: number; path: string } | undefined = undefined;

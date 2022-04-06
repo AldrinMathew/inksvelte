@@ -13,7 +13,6 @@ const reset = () => {
 };
 
 export default {
-	isDarkMode,
 	subscribe,
 	reset,
 	change
