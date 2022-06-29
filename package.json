@@ -1,6 +1,6 @@
 {
 	"name": "inksvelte",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
@@ -13,14 +13,7 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"exports": {
-		".": "./inksvelte.ts",
-		"./ThemeMode": "./store/ThemeMode.ts",
-		"./Link": "./Link.svelte",
-		"./IconButton": "./IconButton.svelte",
-		"./Icon": "./Icon.svelte",
-		"./Button": "./Button.svelte",
-		"./inkIconValues": "./utilities/icon_values.ts",
-		"./inkIcons": "./utilities/icons.ts"
+		".": "./src/lib/inksvelte.ts"
 	},
 	"license": "AAF Dependable 1.0",
 	"devDependencies": {

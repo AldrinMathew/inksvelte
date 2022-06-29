@@ -1,0 +1,1 @@
+yarn package && cd package && npm publish --access public && cd ..
