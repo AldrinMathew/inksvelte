@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type Icons from './utilities/icons';
 	import Icon from './Icon.svelte';
-	import darkMode from './store/ThemeMode';
 
 	export let icons: {
 		light?: Icons;
@@ -10,6 +8,7 @@
 	} = {};
 	export let height: string = '30px';
 	export let width: string = '30px';
+	export let themeMode: boolean;
 	export let accent: {
 		light: { color: string; hover: string; onClick: string };
 		dark?: { color: string; hover: string; onClick: string };
@@ -18,14 +17,7 @@
 	};
 	export let onClick: () => void;
 
-	onMount(() => {
-		darkMode.change(window.document.body.classList.contains('dark'));
-		window.document.body.addEventListener('change', (_) => {
-			darkMode.change(window.document.body.classList.contains('dark'));
-		});
-	});
-
-	let bgColor = $darkMode
+	let bgColor = themeMode
 		? accent.dark !== undefined
 			? accent.dark.color
 			: '#FFFFFF22'
@@ -37,21 +29,21 @@
 	style="height: {height}; background-color: {bgColor}"
 	on:click={onClick}
 	on:mouseenter={() => {
-		if ($darkMode) {
+		if (themeMode) {
 			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF33';
 		} else {
 			bgColor = accent.light.color;
 		}
 	}}
 	on:mouseleave={() => {
-		if ($darkMode) {
+		if (themeMode) {
 			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF22';
 		} else {
 			bgColor = accent.light.hover;
 		}
 	}}
 	on:mousedown={() => {
-		if ($darkMode) {
+		if (themeMode) {
 			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF55';
 		} else {
 			bgColor = accent.light.onClick;
@@ -59,7 +51,7 @@
 	}}
 >
 	<div class="buttonIcon">
-		{#if $darkMode && icons.dark !== undefined}
+		{#if themeMode && icons.dark !== undefined}
 			<Icon {height} {width} name={icons.dark} />
 		{:else}
 			<Icon {height} {width} name={icons.light} />
