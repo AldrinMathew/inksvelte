@@ -8,6 +8,12 @@
 	} = {};
 	export let height: string = '30px';
 	export let width: string = '30px';
+	export let border: {
+		radius?: string;
+		width?: string;
+		color?: string;
+		style?: string;
+	} = {};
 	export let themeMode: boolean;
 	export let accent: {
 		light: { color: string; hover: string; onClick: string };
@@ -26,37 +32,41 @@
 
 <div
 	class="button"
-	style="height: {height}; background-color: {bgColor}"
+	style="height: {height}; background-color: {bgColor}; border-radius: {border.radius ??
+		'10px'}; border: {border.color ?? '#000000FF'} {border.style ?? 'solid'} {border.width ??
+		'0px'};"
 	on:click={onClick}
 	on:mouseenter={() => {
 		if (themeMode) {
-			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF33';
+			bgColor = accent.dark ? accent.dark.color : '#FFFFFF33';
 		} else {
 			bgColor = accent.light.color;
 		}
 	}}
 	on:mouseleave={() => {
 		if (themeMode) {
-			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF22';
+			bgColor = accent.dark ? accent.dark.color : '#FFFFFF22';
 		} else {
 			bgColor = accent.light.hover;
 		}
 	}}
 	on:mousedown={() => {
 		if (themeMode) {
-			bgColor = accent.dark !== undefined ? accent.dark.color : '#FFFFFF55';
+			bgColor = accent.dark ? accent.dark.color : '#FFFFFF55';
 		} else {
 			bgColor = accent.light.onClick;
 		}
 	}}
 >
-	<div class="buttonIcon">
-		{#if themeMode && icons.dark !== undefined}
-			<Icon {height} {width} name={icons.dark} />
-		{:else}
-			<Icon {height} {width} name={icons.light} />
-		{/if}
-	</div>
+	{#if icons.light || icons.dark}
+		<div class="buttonIcon">
+			{#if themeMode && icons.dark}
+				<Icon {height} {width} name={icons.dark} />
+			{:else}
+				<Icon {height} {width} name={icons.light} />
+			{/if}
+		</div>
+	{/if}
 	<slot />
 </div>
 
@@ -67,7 +77,6 @@
 
 	.button {
 		padding: 7px;
-		border-radius: 15px;
 		background-color: transparent;
 		display: flex;
 		flex-direction: row;
