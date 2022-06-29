@@ -14,7 +14,19 @@
 		color?: string;
 		style?: string;
 	} = {};
-	export let themeMode: boolean;
+	export let boxShadow: {
+		offset?: {
+			x: string;
+			y: string;
+		};
+		blurRadius?: {
+			x: string;
+			y: string;
+		};
+		color?: string;
+	} = {};
+	export let themeMode: boolean = false;
+	export let gap: string = '5px';
 	export let accent: {
 		light: { color: string; hover: string; onClick: string };
 		dark?: { color: string; hover: string; onClick: string };
@@ -33,8 +45,12 @@
 <div
 	class="button"
 	style="height: {height}; background-color: {bgColor}; border-radius: {border.radius ??
-		'10px'}; border: {border.color ?? '#000000FF'} {border.style ?? 'solid'} {border.width ??
-		'0px'};"
+		'10px'}; border: {border.color ?? '#00000088'} {border.style ?? 'solid'} {border.width ??
+		'0px'}; box-shadow: {boxShadow.color ?? '#000000FF'} {boxShadow.offset
+		? boxShadow.offset.x
+		: '0px'} {boxShadow.offset ? boxShadow.offset.y : '0px'} {boxShadow.blurRadius
+		? boxShadow.blurRadius.x
+		: '0px'} {boxShadow.blurRadius ? boxShadow.blurRadius.y : '0px'}"
 	on:click={onClick}
 	on:mouseenter={() => {
 		if (themeMode) {
@@ -59,7 +75,10 @@
 	}}
 >
 	{#if icons.light || icons.dark}
-		<div class="buttonIcon">
+		<div
+			class="buttonIcon"
+			style="max-height: 100%; padding-right: {$$slots.default ? gap : '0px'}"
+		>
 			{#if themeMode && icons.dark}
 				<Icon {height} {width} name={icons.dark} />
 			{:else}
@@ -67,14 +86,10 @@
 			{/if}
 		</div>
 	{/if}
-	<slot />
+	<slot class="buttonChild" />
 </div>
 
 <style>
-	.buttonIcon {
-		padding-right: 5px;
-	}
-
 	.button {
 		padding: 7px;
 		background-color: transparent;
@@ -84,6 +99,5 @@
 		user-select: none;
 		align-items: center;
 		width: fit-content;
-		box-shadow: #00000011 0px 2px 3px 3px;
 	}
 </style>
